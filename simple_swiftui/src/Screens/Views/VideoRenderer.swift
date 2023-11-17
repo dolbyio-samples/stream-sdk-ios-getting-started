@@ -27,7 +27,7 @@ struct MillicastVideoView: View {
     @ObservedObject private var iosRendererObserver: MCIosVideoRendererObserver
     
     init(track: MCVideoTrack, mirror: Bool) {
-        iosRenderer = MCIosVideoRenderer(colorRangeExpansion: false)
+        iosRenderer = MCIosVideoRenderer(openGLRenderer: false, colorRangeExpansion: false)
         iosRendererObserver = MCIosVideoRendererObserver(iosRenderer: iosRenderer)
         self.track = track
         self.mirror = mirror

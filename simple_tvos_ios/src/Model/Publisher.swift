@@ -97,9 +97,7 @@ private final class PublisherImpl: Publisher {
         // ---------------------------------------------------------
 
         // Create a publisher object
-        guard let publisher = MCPublisher.create() else {
-            fatalError("Could not create a publisher") // In production replace with a throw
-        }
+        let publisher = MCPublisher.create();
         
         self.publisher = publisher
         

@@ -35,7 +35,7 @@ private final class PublisherImpl: Publisher {
     private var publisher: MCPublisher!
     private var videoSource: MCVideoSource!
     private var videoTrack: MCVideoTrack?
-    
+    private var audioSource: MCAudioSource!
     private var audioSessionConfigured: Bool = false
 
     fileprivate init() { }
@@ -57,13 +57,15 @@ private final class PublisherImpl: Publisher {
 
         // Create an audio track
         var audioTrack : MCAudioTrack? = nil
-        if 
+        if
             let audioSources = MCMedia.getAudioSources(), // Get an array of audio sources
             !audioSources.isEmpty // There is at least one audio source
         {
             // Choose the preferred audio source and start capturing
-            let audioSource = audioSources[0]
+            audioSource = audioSources[0]
             audioTrack = audioSource.startCapture() as? MCAudioTrack
+        } else {
+            print("There are no audio sources!")
         }
         
         // Create a video track
@@ -73,7 +75,8 @@ private final class PublisherImpl: Publisher {
             !videoSources.isEmpty // There is at least one video source
         {
             // Choose the preferred video source
-            let videoSource = videoSources[0];
+            videoSource = videoSources[0];
+            print(videoSource.getName()!)
             
             // Get capabilities of the available video sources, such as
             // width, height, and frame rate of the video sources
@@ -86,6 +89,8 @@ private final class PublisherImpl: Publisher {
             
             // Start video recording and create a video track
             videoTrack = videoSource.startCapture() as? MCVideoTrack
+        } else {
+            print("There are no video sources!")
         }
         
         // ---------------------------------------------------------
@@ -93,9 +98,7 @@ private final class PublisherImpl: Publisher {
         // ---------------------------------------------------------
 
         // Create a publisher object
-        guard let publisher = MCPublisher.create() else {
-            fatalError("Could not create a publisher") // In production replace with a throw
-        }
+        let publisher = MCPublisher.create()
         
         self.publisher = publisher
         
@@ -106,7 +109,7 @@ private final class PublisherImpl: Publisher {
         // and set the modified credentials
         let credentials = MCPublisherCredentials()
         credentials.streamName = "<stream_name>"; // The name of the stream you want to publish
-        credentials.token = "<token>"; // The publishing token
+        credentials.token = "<pub_token>"; // The publishing token
         credentials.apiUrl
             = "https://director.millicast.com/api/director/publish"; // The publish API URL
 
