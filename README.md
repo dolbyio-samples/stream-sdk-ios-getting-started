@@ -1,35 +1,30 @@
-<!--
-[![Build Package](https://github.com/dolbyio-samples/template-repo/actions/workflows/build-package.yml/badge.svg)](https://github.com/dolbyio-samples/template-repo/actions/workflows/build-package.yml)
-[![Publish Package](https://github.com/dolbyio-samples/template-repo/actions/workflows/publish-package.yml/badge.svg)](https://github.com/dolbyio-samples/template-repo/actions/workflows/publish-package.yml)
-[![npm](https://img.shields.io/npm/v/dolbyio-samples/template-repo)](https://www.npmjs.com/package/dolbyio-samples/template-repo)
-[![License](https://img.shields.io/github/license/dolbyio-samples/template-repo)](LICENSE)
 
-Adding shields would also be amazing -->
+# Getting Started with Dolby.io Streaming iOS SDK
 
-# Title of Repo
-One sentence linking to the tutorial and what this repo is for.
+This repository contains the starter applications that are explained in the 
+Dolby.io [Streaming Getting Started Guide](https://docs.dolby.io/streaming-apis/docs/getting-started).
 
-# Overview
-Two or three sentences describing the overall output.
+## Overview
 
-# Requirements 
-List any hardware, software, or library dependencies the users would have to install to follow the tutorial or use the sample project. 
+The [documentation](https://docs.dolby.io/streaming-apis/docs/getting-started) explains how to get started with the iOS SDK. 
 
-# Getting Started 
+There are two distinct  apps included:
+- **simple_swiftui**: publish and subscribe for Dolby.io Real-time Streaming using SwiftUI for the GUI
+- **simple_uikit**: publish and subscribe for Dolby.io Real-time Streaming using UIKit for the GUI
+
+## Requirements
+
+You will need:
+- A [Dolby.io Account](https://dashboard.dolby.io/signup)
+- The Xcode environment setup on your Mac
+
+## Getting Started
+
 A good area to mention they should sign up for Dolby.io to use the APIs, the free 50GBs, or anything they should have to follow along
 
-# Report a Bug 
-In the case any bugs occur, report it using Github issues, and we will see to it. 
+## Give Feedback or Report a Bug
 
-# Forking
-We welcome your interest in trying to experiment with our repos.
-
-# Feedback 
-If there are any suggestions or if you would like to deliver any positive notes, feel free to open an issue and let us know!
-
-# Learn More
-For a deeper dive, we welcome you to review the following:
-  *bulleted list of blogs or docs pages that might be useful* 
+If you run into any errors or have questions, create a [GitHub issue](https://github.com/dolbyio-samples/stream-sdk-ios-getting-started/issues).
 
 
 # About Dolby.io

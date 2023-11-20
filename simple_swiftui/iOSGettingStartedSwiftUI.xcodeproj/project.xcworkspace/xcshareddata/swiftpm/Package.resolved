@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "millicast-sdk-swift-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/millicast/millicast-sdk-swift-package",
+      "state" : {
+        "revision" : "670aa8de308dfa52145d59e14647390ca600cbd6",
+        "version" : "1.5.2"
+      }
+    }
+  ],
+  "version" : 2
+}
