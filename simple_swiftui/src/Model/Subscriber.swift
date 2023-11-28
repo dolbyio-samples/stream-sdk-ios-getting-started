@@ -45,7 +45,7 @@ private final class SubscriptionImpl: Subscription {
 
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(
-            .playback,
+            .playAndRecord,
             mode: .videoChat,
             options: [.mixWithOthers, .allowBluetooth, .allowBluetoothA2DP]
         )
@@ -84,8 +84,10 @@ private final class SubscriptionImpl: Subscription {
 
         let subscriberOptions = MCClientOptions()
 
-        subscriberOptions.pinnedSourceId 
-            = "MySource"; // The main source that will be received by the default media stream
+        // The pinned source id is optional hence being commented out here. If you decide to use it
+        // please make sure that the publisher is configured in a similar manner. 
+//        subscriberOptions.pinnedSourceId
+//            = "MySource"; // The main source that will be received by the default media stream
         subscriberOptions.multiplexedAudioTrack 
             = 3; // Enables audio multiplexing and denotes the number of audio tracks to receive
                  // as Voice Activity Detection (VAD) multiplexed audio

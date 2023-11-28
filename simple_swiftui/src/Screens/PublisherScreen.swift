@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PublisherScreen: View {
     
+    @State private var isPublishing: Bool = false
     @StateObject private var presenter: SwiftUIPublisherPresenter
     @Environment(\.coordinator) private var coordinator
     
@@ -19,8 +20,16 @@ struct PublisherScreen: View {
                 EmptyView()
             }
             Spacer()
-            Button("Start publishing") {
-                presenter.publish()
+            if isPublishing {
+                Button("Stop publishing") {
+                    presenter.unpublish()
+                    isPublishing = false
+                }
+            } else {
+                Button("Start publishing") {
+                    presenter.publish()
+                    isPublishing = true
+                }
             }
         }
         .navigationTitle("Publisher")

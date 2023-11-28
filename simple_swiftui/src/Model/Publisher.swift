@@ -137,8 +137,10 @@ private final class PublisherImpl: Publisher {
 
         // To use multi-source, set a source ID of the publisher and
         // enable discontinuous transmission
-        publisherOptions.sourceId = "MySource"
-        publisherOptions.dtx = true
+        // The pinned source id and dtx are optional hence being commented out here. If you decide
+        // to use these please make sure that the subscriber is configured in a similar manner.
+//        publisherOptions.sourceId = "MySource"
+//        publisherOptions.dtx = true
         
         // Enable stereo
         publisherOptions.stereo = true
