@@ -20,7 +20,7 @@ class SubscriptionPresenter: SubscriptionDelegate {
                 let subscription = subscriptionManager.subscribe()
                 self.subscription = subscription
                 subscription.delegate = self
-                try subscription.start()
+                try await subscription.start()
             } catch {
                 os_log(.error, log: log, "SubscriptionPresenter: could not start the subscriber: %s", error.localizedDescription)
             }
@@ -28,16 +28,19 @@ class SubscriptionPresenter: SubscriptionDelegate {
     }
     
     func unsubscribe() {
-        do {
-            try subscription?.stop()
-            subscription?.delegate = nil
-            subscription = nil
-        } catch {
-            os_log(.error, log: log, "SubscriptionPresenter: could not stop the subscriber: %s", error.localizedDescription)
+        Task {
+            do {
+                try await subscription?.stop()
+                subscription?.delegate = nil
+                subscription = nil
+            } catch {
+                os_log(.error, log: log, "SubscriptionPresenter: could not stop the subscriber: %s", error.localizedDescription)
+            }
         }
     }
     
-    func videoTrackCreated(_ videoTrack: MCVideoTrack) { }
+    @MainActor
+    func videoTrackCreated(_ videoTrack: MCVideoTrack) async { }
 }
 
 // MARK: - Publisher

@@ -3,11 +3,11 @@ import SwiftUI
 
 struct PublisherScreen: View {
     
-    @StateObject private var presenter: SwiftUIPublisherPresenter
+    @ObservedObject private var presenter: SwiftUIPublisherPresenter
     @Environment(\.coordinator) private var coordinator
     
     init(presenter: SwiftUIPublisherPresenter) {
-        _presenter = StateObject(wrappedValue: presenter)
+        self.presenter = presenter
     }
     
     var body: some View {
