@@ -77,8 +77,6 @@ private final class SubscriptionImpl: Subscription {
         // ---------------------------------------------------------
 
         let credentials = MCSubscriberCredentials()
-        credentials.accountId =  "<account_id>"; // The ID of your Dolby.io Real-time Streaming account
-        credentials.streamName = "<stream_name>"; // The name of the stream you want to subscribe to
         credentials.apiUrl
             = "https://director.millicast.com/api/director/subscribe"; // The subscribe API URL
 
