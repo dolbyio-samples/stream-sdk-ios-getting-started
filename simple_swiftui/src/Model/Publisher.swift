@@ -19,13 +19,13 @@ final class PublisherManagerImpl: PublisherManager {
 // MARK: - Publisher
 
 protocol PublisherDelegate: AnyObject {
-    func didPublish(track: MCVideoTrack)
+    func didPublish(track: MCVideoTrack) async
 }
 
 protocol Publisher: AnyObject {
     var delegate: PublisherDelegate? { set get }
-    func start() throws
-    func stop() throws
+    func start() async throws
+    func stop() async throws
 }
 
 private final class PublisherImpl: Publisher {
@@ -40,7 +40,7 @@ private final class PublisherImpl: Publisher {
 
     fileprivate init() { }
     
-    func start() throws {
+    func start() async throws {
         
         // ---------------------------------------------------------
         // 1. Capture audio and video
@@ -89,31 +89,33 @@ private final class PublisherImpl: Publisher {
         }
         
         // ---------------------------------------------------------
-        // 2. Publish a stream
+        // 2. Create the Millicast publisher
         // ---------------------------------------------------------
 
         // Create a publisher object
-        guard let publisher = MCPublisher.create() else {
-            fatalError("Could not create a publisher") // In production replace with a throw
-        }
+        let publisher = MCPublisher()
         
         self.publisher = publisher
         
-        // Set this class instance as listener of the publisher
-        publisher.setListener(self)
         
+        // ---------------------------------------------------------
+        // 3. Authenticate using the Director API
+        // ---------------------------------------------------------
+
         // Get the credentials structure from your publisher instance, fill it in,
         // and set the modified credentials
         let credentials = MCPublisherCredentials()
-        credentials.streamName = "<stream_name>"; // The name of the stream you want to publish
-        credentials.token = "<token>"; // The publishing token
+        credentials.streamName = "<#stream_name#>"; // The name of the stream you want to publish
+        credentials.token = "<#token#>"; // The publishing token
         credentials.apiUrl
             = "https://director.millicast.com/api/director/publish"; // The publish API URL
 
-        publisher.setCredentials(credentials);
+        try await publisher.setCredentials(credentials);
         
+        try await publisher.connect()
+
         // ---------------------------------------------------------
-        // 3. Configure your publishing session
+        // 4. Configure your publishing session
         // ---------------------------------------------------------
 
         let publisherOptions = MCClientOptions()
@@ -137,88 +139,43 @@ private final class PublisherImpl: Publisher {
 
         // To use multi-source, set a source ID of the publisher and
         // enable discontinuous transmission
-        publisherOptions.sourceId = "MySource"
-        publisherOptions.dtx = true
+//        publisherOptions.sourceId = "MySource"
+//        publisherOptions.dtx = true
         
         // Enable stereo
         publisherOptions.stereo = true
         
-        // Set the selected options to the publisher
-        publisher.setOptions(publisherOptions)
         
         // ---------------------------------------------------------
-        // 4. Add the audio and video track
+        // 5. Add the audio and video track
         // ---------------------------------------------------------
 
         if let videoTrack = videoTrack {
-            publisher.add(videoTrack)
+            await publisher.addTrack(with: videoTrack)
         }
         if let audioTrack = audioTrack {
-            publisher.add(audioTrack)
-        }
-                
-        // ---------------------------------------------------------
-        // 5. Authenticate using the Director API
-        // ---------------------------------------------------------
-
-        guard publisher.connect() else {
-            fatalError("Connection error could not connect.") // In production replace with a throw
+            await publisher.addTrack(with: audioTrack)
         }
         
-        // Keep a reference to the video track
-        self.videoTrack = videoTrack
-    }
-    
-    func stop() throws {
-        publisher.unpublish()
-        publisher.disconnect()
-        let session = AVAudioSession.sharedInstance()
-        try session.setActive(false)
-    }
-
-}
-
-extension PublisherImpl: MCPublisherListener {
-    
-    // MARK: Lifecycle
-    
-    func onConnected() {
-      
         // ---------------------------------------------------------
         // 6. Start publishing
         // ---------------------------------------------------------
 
-        publisher.publish()
-    }
-    
-    func onPublishing() { 
-        // Inform presenter that the video track has been published
+        try await publisher.publish(with: publisherOptions)
+        
         if let videoTrack = videoTrack {
-            delegate?.didPublish(track: videoTrack)
+            await delegate?.didPublish(track: videoTrack)
         }
-    }
-    
-    func onActive() { }
-    
-    func onViewerCount(_ count: Int32) { }
-    
-    func onInactive() { }
 
-    func onDisconnected() { }
+        // Keep a reference to the video track
+        self.videoTrack = videoTrack
+    }
+    
+    func stop() async throws {
+        try await publisher.unpublish()
+        try await publisher.disconnect()
+        let session = AVAudioSession.sharedInstance()
+        try session.setActive(false)
+    }
 
-    func onStatsReport(_ report: MCStatsReport) { }
-
-    // MARK: Error handling
-    
-    func onConnectionError(_ status: Int32, withReason reason: String) {
-        os_log(.error, log: log, "Connection error status: %i reason: %s", status, reason)
-    }
-    
-    func onPublishingError(_ error: String!) {
-        os_log(.error, log: log, "Publishing error: %s", error)
-    }
-    
-    func onSignalingError(_ message: String) {
-        os_log(.error, log: log, "Signaling error: %s", message)
-    }
 }

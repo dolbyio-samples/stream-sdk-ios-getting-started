@@ -3,11 +3,11 @@ import SwiftUI
 
 struct PublisherScreen: View {
     
-    @StateObject private var presenter: SwiftUIPublisherPresenter
+    @ObservedObject private var presenter: SwiftUIPublisherPresenter
     @Environment(\.coordinator) private var coordinator
     
     init(presenter: SwiftUIPublisherPresenter) {
-        _presenter = StateObject(wrappedValue: presenter)
+        self.presenter = presenter
     }
     
     var body: some View {
@@ -36,7 +36,8 @@ class SwiftUIPublisherPresenter: PublisherPresenter, ObservableObject {
     
     @Published var track: MCVideoTrack?
     
-    override func didPublish(track: MCVideoTrack) {
+    @MainActor
+    override func didPublish(track: MCVideoTrack) async {
         DispatchQueue.main.async {
             self.track = track
         }

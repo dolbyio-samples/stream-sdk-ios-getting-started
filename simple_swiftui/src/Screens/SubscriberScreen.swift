@@ -3,11 +3,11 @@ import SwiftUI
 
 struct SubscriberScreen: View {
     
-    @StateObject private var subscriptionPresenter: SwiftUISubscriptionPresenter
+    @ObservedObject private var subscriptionPresenter: SwiftUISubscriptionPresenter
     @Environment(\.coordinator) private var coordinator
 
     init(subscriptionPresenter: SwiftUISubscriptionPresenter) {
-        _subscriptionPresenter = StateObject(wrappedValue: subscriptionPresenter)
+        self.subscriptionPresenter = subscriptionPresenter
     }
     
     var body: some View {
@@ -36,7 +36,8 @@ class SwiftUISubscriptionPresenter: SubscriptionPresenter, ObservableObject {
     
     @Published var track: MCVideoTrack?
     
-    override func videoTrackCreated(_ videoTrack: MCVideoTrack) {
+    @MainActor
+    override func videoTrackCreated(_ videoTrack: MCVideoTrack) async {
         track = videoTrack
     }
 }
