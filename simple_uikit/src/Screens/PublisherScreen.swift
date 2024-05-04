@@ -27,9 +27,8 @@ class UIKitPublisherPresenter: PublisherPresenter {
         super.init(publisherManager: publisherManager)
     }
     
-    override func didPublish(track: MCVideoTrack) {
-        DispatchQueue.main.async {
-            self.rendererView.diplayTrack(track: track)
-        }
+    @MainActor
+    override func didPublish(track: MCVideoTrack) async {
+        self.rendererView.diplayTrack(track: track)
     }
 }

@@ -27,9 +27,8 @@ class UIKitSubscriptionPresenter: SubscriptionPresenter {
         super.init(subscriptionManager: subscriptionManager)
     }
     
-    override func videoTrackCreated(_ videoTrack: MCVideoTrack) {
-        DispatchQueue.main.async {
-            self.rendererView.diplayTrack(track: videoTrack)
-        }
+    @MainActor
+    override func videoTrackCreated(_ videoTrack: MCVideoTrack) async {
+        self.rendererView.diplayTrack(track: videoTrack)
     }
 }
