@@ -2,11 +2,11 @@
 # Getting Started with Dolby.io Streaming iOS SDK
 
 This repository contains the starter applications that are explained in the 
-Dolby.io [Streaming Getting Started Guide](https://docs.dolby.io/streaming-apis/docs/getting-started).
+Dolby.io [Streaming Getting Started Guide for iOS](https://docs.dolby.io/streaming-apis/docs/ios).
 
 ## Overview
 
-The [documentation](https://docs.dolby.io/streaming-apis/docs/getting-started) explains how to get started with the iOS SDK. 
+The [documentation](https://docs.dolby.io/streaming-apis/docs/ios) explains how to get started with the iOS SDK. 
 
 There are two distinct  apps included:
 - **simple_swiftui**: publish and subscribe for Dolby.io Real-time Streaming using SwiftUI for the GUI
