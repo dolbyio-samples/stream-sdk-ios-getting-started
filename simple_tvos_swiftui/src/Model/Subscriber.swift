@@ -111,7 +111,7 @@ private final class SubscriptionImpl: Subscription {
         // 6. Subscribe to the streamed content
         // ---------------------------------------------------------
 
-            try await subscriber.subscribe(with: subscriberOptions)
+        try await subscriber.subscribe(with: subscriberOptions)
     }
     
     func stop() async throws {
