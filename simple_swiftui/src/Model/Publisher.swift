@@ -3,32 +3,11 @@ import MillicastSDK
 import AVFAudio
 import OSLog
 
-// MARK: PublisherManager
-
-protocol PublisherManager {
-    func publish() -> Publisher
-}
-
-final class PublisherManagerImpl: PublisherManager {
-    
-    func publish() -> Publisher {
-        return PublisherImpl()
-    }
-}
-
-// MARK: - Publisher
-
 protocol PublisherDelegate: AnyObject {
     func didPublish(track: MCVideoTrack) async
 }
 
-protocol Publisher: AnyObject {
-    var delegate: PublisherDelegate? { set get }
-    func start() async throws
-    func stop() async throws
-}
-
-private final class PublisherImpl: Publisher {
+final class Publisher {
     
     weak var delegate: PublisherDelegate?
     
@@ -38,7 +17,7 @@ private final class PublisherImpl: Publisher {
     
     private var audioSessionConfigured: Bool = false
 
-    fileprivate init() { }
+    init() { }
     
     func start() async throws {
         

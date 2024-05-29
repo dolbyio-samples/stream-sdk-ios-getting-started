@@ -1,32 +1,34 @@
 import SwiftUI
 
-public struct MainMenuScreen: View {
+public struct MainMenuScreen<SV: View, PV: View>: View {
+
+    private let subscriberView: () -> SV
+    private let publisherView: () -> PV
     
-    @Environment(\.coordinator) private var coordinator
-    
+    init(
+        subscriberView: @escaping @autoclosure () -> SV,
+        publisherView: @escaping @autoclosure () -> PV
+    ) {
+        self.subscriberView = subscriberView
+        self.publisherView = publisherView
+    }
     public var body: some View {
         List {
             NavigationLink("Subscriber") {
-                coordinator.playerRequested()
+                subscriberView()
             }
             NavigationLink("Publisher") {
-                coordinator.recorderRequested()
+                publisherView()
             }
         }
         .navigationTitle("Menu")
     }
 }
 
-protocol MainMenuScreenDelegate {
-    func playerRequested() -> AnyView
-    func recorderRequested() -> AnyView
-}
-
 #if SHOW_PREVIEW
 #Preview {
    NavigationView {
-       MainMenuScreen()
+       MainMenuScreen(subscriberView: EmptyView(), publisherView: EmptyView())
    }
-   .environment(\.coordinator, previewCoordinator)
 }
 #endif
