@@ -23,6 +23,6 @@ final class CoordinatorImpl {
     }
     
     func millicastVideoView(track: MCVideoTrack, mirror: Bool) -> some View {
-        return MillicastVideoView(track:track, mirror:mirror)
+        return MCVideoSwiftUIView(videoTrack: track, mirror: mirror)
     }
 }
