@@ -4,34 +4,11 @@ import AVFoundation
 import AVFAudio
 import OSLog
 
-// MARK:  SubscriptionManager
-
-protocol SubscriptionManager {
-    func subscribe() -> Subscription
-}
-
-final class SubscriptionManagerImpl: SubscriptionManager {
-        
-    init() { }
-    
-    func subscribe() -> Subscription {
-        return SubscriptionImpl()
-    }
-}
-
-// MARK: - Subscription
-
 protocol SubscriptionDelegate: AnyObject {
     func videoTrackCreated(_ videoTrack: MCVideoTrack) async
 }
 
-protocol Subscription: AnyObject {
-    var delegate: SubscriptionDelegate? { get set }
-    func start() async throws
-    func stop() async throws
-}
-
-private final class SubscriptionImpl: Subscription {
+final class Subscription {
     
     weak var delegate: SubscriptionDelegate?
     

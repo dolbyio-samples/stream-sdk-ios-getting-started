@@ -4,10 +4,7 @@ import MillicastSDK
 class PublisherViewController: UIViewController {
     
     private lazy var presenter: UIKitPublisherPresenter = {
-        UIKitPublisherPresenter(
-            publisherManager: PublisherManagerImpl(),
-            rendererView: rendererView
-        )
+        UIKitPublisherPresenter(rendererView: rendererView)
     }()
     
     @IBOutlet weak var rendererView: RendererView!
@@ -22,9 +19,9 @@ class UIKitPublisherPresenter: PublisherPresenter {
 
     let rendererView: RendererView
     
-    init(publisherManager: PublisherManager, rendererView: RendererView) {
+    init(rendererView: RendererView) {
         self.rendererView = rendererView
-        super.init(publisherManager: publisherManager)
+        super.init()
     }
     
     @MainActor

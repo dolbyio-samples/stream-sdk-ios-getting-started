@@ -4,10 +4,7 @@ import MillicastSDK
 class SubscriberViewController: UIViewController {
     
     private lazy var presenter: UIKitSubscriptionPresenter = {
-       UIKitSubscriptionPresenter(
-        subscriptionManager: SubscriptionManagerImpl(),
-        rendererView: rendererView
-       )
+       UIKitSubscriptionPresenter(rendererView: rendererView)
     }()
     
     @IBOutlet weak var rendererView: RendererView!
@@ -22,9 +19,9 @@ class UIKitSubscriptionPresenter: SubscriptionPresenter {
     
     private let rendererView: RendererView
     
-    init(subscriptionManager: SubscriptionManager, rendererView: RendererView) {
+    init(rendererView: RendererView) {
         self.rendererView = rendererView
-        super.init(subscriptionManager: subscriptionManager)
+        super.init()
     }
     
     @MainActor

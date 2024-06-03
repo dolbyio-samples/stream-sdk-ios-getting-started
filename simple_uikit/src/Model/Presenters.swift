@@ -7,17 +7,12 @@ import MillicastSDK
 
 class SubscriptionPresenter: SubscriptionDelegate {
     
-    private let subscriptionManager: SubscriptionManager
     private var subscription: Subscription?
 
-    init(subscriptionManager: SubscriptionManager) {
-        self.subscriptionManager = subscriptionManager
-    }
-    
     func subscribe() {
         Task {
             do {
-                let subscription = subscriptionManager.subscribe()
+                let subscription = Subscription()
                 self.subscription = subscription
                 subscription.delegate = self
                 try await subscription.start()
@@ -47,17 +42,12 @@ class SubscriptionPresenter: SubscriptionDelegate {
 
 class PublisherPresenter: PublisherDelegate {
     
-    private let publisherManager: PublisherManager
     private var publisher: Publisher?
-    
-    init(publisherManager: PublisherManager) {
-        self.publisherManager = publisherManager
-    }
     
     func publish() {
         Task {
             do {
-                let publisher = publisherManager.publish()
+                let publisher = Publisher()
                 self.publisher = publisher
                 publisher.delegate = self
                 try await publisher.start()
