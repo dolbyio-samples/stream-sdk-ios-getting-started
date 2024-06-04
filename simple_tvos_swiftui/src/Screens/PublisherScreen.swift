@@ -1,57 +1,53 @@
 import MillicastSDK
 import SwiftUI
+import OSLog
 
-struct PublisherScreen: View {
+struct PublisherScreen<VM: PublisherViewModelType, MVV: View>: View {
     
-    @ObservedObject private var presenter: SwiftUIPublisherPresenter
-    @Environment(\.coordinator) private var coordinator
-    
-    init(presenter: SwiftUIPublisherPresenter) {
-        self.presenter = presenter
+    @ObservedObject private var viewModel: VM
+    private let millicastVideoView: (_ track: VM.T, _ mirror: Bool) -> MVV
+
+    init(
+        viewModel: VM,
+        millicastVideoView: @escaping (_ track: VM.T, _ mirror: Bool) -> MVV
+    ) {
+        self.viewModel = viewModel
+        self.millicastVideoView = millicastVideoView
     }
     
     var body: some View {
         VStack {
             Spacer()
-            if let track = presenter.track {
-                coordinator.millicastVideoView(track: track, mirror: false).padding()
+            if let track = viewModel.track {
+                millicastVideoView(track, false).padding()
             } else {
                 EmptyView()
             }
             Spacer()
-            Button("Start publishing") {
-                presenter.publish()
+            Button("Publish") {
+                viewModel.publish()
             }
         }
         .navigationTitle("Publisher")
     }
 }
 
-protocol PublisherScreenDelegate {
-    func millicastVideoView(track: MCVideoTrack, mirror: Bool) -> AnyView
-}
-
-
-class SwiftUIPublisherPresenter: PublisherPresenter, ObservableObject {
-    
-    @Published var track: MCVideoTrack?
-    
-    override func didPublish(track: MCVideoTrack) {
-        DispatchQueue.main.async {
-            self.track = track
-        }
-    }
-}
 
 #if SHOW_PREVIEW
+
+private final class PublisherViewModel_Preview: PublisherViewModelType {
+    var track: Int?
+    func publish() { }
+    func unpublish() { }
+}
+
 #Preview {
     NavigationView {
         PublisherScreen(
-            presenter: SwiftUIPublisherPresenter(
-                publisherManager: previewCoordinator.publisherManager
-            )
+            viewModel: PublisherViewModel_Preview(),
+            millicastVideoView: { _, _ in Text("Video view").background(Color.red) }
         )
     }
-    .environment(\.coordinator, previewCoordinator)
 }
+
 #endif
