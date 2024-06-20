@@ -4,34 +4,11 @@ import AVFoundation
 import AVFAudio
 import OSLog
 
-// MARK:  SubscriptionManager
-
-protocol SubscriptionManager {
-    func subscribe() -> Subscription
-}
-
-final class SubscriptionManagerImpl: SubscriptionManager {
-        
-    init() { }
-    
-    func subscribe() -> Subscription {
-        return SubscriptionImpl()
-    }
-}
-
-// MARK: - Subscription
-
 protocol SubscriptionDelegate: AnyObject {
     func videoTrackCreated(_ videoTrack: MCVideoTrack) async
 }
 
-protocol Subscription: AnyObject {
-    var delegate: SubscriptionDelegate? { get set }
-    func start() async throws
-    func stop() async throws
-}
-
-private final class SubscriptionImpl: Subscription {
+final class Subscription {
     
     weak var delegate: SubscriptionDelegate?
     
@@ -45,7 +22,7 @@ private final class SubscriptionImpl: Subscription {
 
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(
-            .playback,
+            .playAndRecord,
             mode: .videoChat,
             options: [.mixWithOthers, .allowBluetoothA2DP]
         )
@@ -96,9 +73,9 @@ private final class SubscriptionImpl: Subscription {
 
         let subscriberOptions = MCClientOptions()
 
-//        subscriberOptions.pinnedSourceId 
+//        subscriberOptions.pinnedSourceId
 //            = "MySource"; // The main source that will be received by the default media stream
-//        subscriberOptions.multiplexedAudioTrack 
+//        subscriberOptions.multiplexedAudioTrack
 //            = 3; // Enables audio multiplexing and denotes the number of audio tracks to receive
 //                 // as Voice Activity Detection (VAD) multiplexed audio
 //        subscriberOptions.excludedSourceId
@@ -111,7 +88,7 @@ private final class SubscriptionImpl: Subscription {
         // 6. Subscribe to the streamed content
         // ---------------------------------------------------------
 
-        try await subscriber.subscribe(with: subscriberOptions)
+            try await subscriber.subscribe(with: subscriberOptions)
     }
     
     func stop() async throws {
