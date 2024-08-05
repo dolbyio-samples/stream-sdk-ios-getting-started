@@ -418,7 +418,7 @@
 			repositoryURL = "https://github.com/millicast/millicast-sdk-swift-package";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.8.0;
+				minimumVersion = 1.8.7;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

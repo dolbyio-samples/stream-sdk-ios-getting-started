@@ -54,10 +54,9 @@ final class Subscription {
         // ---------------------------------------------------------
 
         let credentials = MCSubscriberCredentials()
-        credentials.accountId =  "<#accout_id#>"; // The ID of your Dolby.io Real-time Streaming account
-        credentials.streamName = "<#stream_name#>"; // The name of the stream you want to subscribe to
-        credentials.apiUrl
-            = "https://director.millicast.com/api/director/subscribe"; // The subscribe API URL
+        credentials.accountId =  "<#account_id#>" // The ID of your Dolby.io Real-time Streaming account
+        credentials.streamName = "<#stream_name#>" // The name of the stream you want to subscribe to
+        credentials.apiUrl = "https://director.millicast.com/api/director/subscribe" // The subscribe API URL
 
         try await subscriber.setCredentials(credentials)
 
@@ -74,9 +73,9 @@ final class Subscription {
         let subscriberOptions = MCClientOptions()
 
 //        subscriberOptions.pinnedSourceId
-//            = "MySource"; // The main source that will be received by the default media stream
+//            = "MySource" // The main source that will be received by the default media stream
 //        subscriberOptions.multiplexedAudioTrack
-//            = 3; // Enables audio multiplexing and denotes the number of audio tracks to receive
+//            = 3 // Enables audio multiplexing and denotes the number of audio tracks to receive
 //                 // as Voice Activity Detection (VAD) multiplexed audio
 //        subscriberOptions.excludedSourceId
 //            = [ "excluded" ] // Audio streams that should not be included in the multiplex, for
