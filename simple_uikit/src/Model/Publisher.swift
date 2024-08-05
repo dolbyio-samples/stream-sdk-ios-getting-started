@@ -52,7 +52,7 @@ final class Publisher {
             !videoSources.isEmpty // There is at least one video source
         {
             // Choose the preferred video source
-            let videoSource = videoSources[0];
+            let videoSource = videoSources[0]
             
             // Get capabilities of the available video sources, such as
             // width, height, and frame rate of the video sources
@@ -60,8 +60,8 @@ final class Publisher {
               fatalError("No capability is available!") // In production replace with a throw
             }
             
-            let capability = capabilities[0]; // Get the first capability
-            videoSource.setCapability(capability);
+            let capability = capabilities[0] // Get the first capability
+            videoSource.setCapability(capability)
             
             // Start video recording and create a video track
             videoTrack = videoSource.startCapture() as? MCVideoTrack
@@ -84,12 +84,11 @@ final class Publisher {
         // Get the credentials structure from your publisher instance, fill it in,
         // and set the modified credentials
         let credentials = MCPublisherCredentials()
-        credentials.streamName = "<#stream_name#>"; // The name of the stream you want to publish
-        credentials.token = "<#token#>"; // The publishing token
-        credentials.apiUrl
-            = "https://director.millicast.com/api/director/publish"; // The publish API URL
+        credentials.streamName = "<#stream_name#>" // The name of the stream you want to publish
+        credentials.token = "<#token#>" // The publishing token
+        credentials.apiUrl = "https://director.millicast.com/api/director/publish" // The publish API URL
 
-        try await publisher.setCredentials(credentials);
+        try await publisher.setCredentials(credentials)
         
         try await publisher.connect()
 
