@@ -8,10 +8,6 @@ Dolby.io [Streaming Getting Started Guide for iOS](https://docs.dolby.io/streami
 
 The [documentation](https://docs.dolby.io/streaming-apis/docs/ios) explains how to get started with the iOS SDK. 
 
-There are two distinct  apps included:
-- **simple_swiftui**: publish and subscribe for Dolby.io Real-time Streaming using SwiftUI for the GUI
-- **simple_uikit**: publish and subscribe for Dolby.io Real-time Streaming using UIKit for the GUI
-
 ## Requirements
 
 You will need:
@@ -19,8 +15,9 @@ You will need:
 - The Xcode environment setup on your Mac
 
 ## Getting Started
-
-A good area to mention they should sign up for Dolby.io to use the APIs, the free 50GBs, or anything they should have to follow along
+1. Open the Xcode project 
+2. Fill in the string place holders in the `SubscriberViewModel.swift` and `PublisherViewModel.swift` files
+3. Launch the app.
 
 ## Give Feedback or Report a Bug
 
